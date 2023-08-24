@@ -1,0 +1,156 @@
+model
+  schema 1.1
+type user
+type group
+  relations
+    define member: [user]
+type server
+  relations
+    define admin: [user, group#member]
+    define operator: [user, group#member] or admin
+    define viewer: [user, group#member] or operator
+    define user: [user:*]
+    define can_edit_server: admin
+    define can_view_server: user
+    define can_create_storage_pool: [user, group#member] or admin
+    define can_create_project: [user, group#member] or operator
+    define can_view_resources: [user, group#member] or viewer
+    define can_create_certificate: [user, group#member] or admin
+    define can_edit_cluster: [user, group#member] or admin
+    define can_view_cluster: [user, group#member] or viewer
+    define can_create_cluster_member: [user, group#member] or admin
+    define can_create_cluster_group: [user, group#member] or admin
+    define can_view_metrics: [user, group#member] or viewer
+type certificate
+  relations
+    define server: [server]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or admin from server
+    define can_view: viewer or viewer from server
+type cluster_member
+  relations
+    define server: [server]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or admin from server
+    define can_view: viewer or viewer from server
+type cluster_group
+  relations
+    define server: [server]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or admin from server
+    define can_view: viewer or viewer from server
+type storage_pool
+  relations
+    define server: [server]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or admin from server
+    define can_view: viewer or viewer from server
+type project
+  relations
+    define server: [server]
+    define manager: [user, group#member] or operator from server
+    define operator: [user, group#member] or manager or operator from server
+    define viewer: [user, group#member] or operator
+    define can_edit: manager
+    define can_view: viewer
+    define can_create_images: [user, group#member] or operator or operator from server
+    define can_create_instances: [user, group#member] or operator or operator from server
+    define can_create_networks: [user, group#member] or operator or operator from server
+    define can_create_network_acls: [user, group#member] or operator or operator from server
+    define can_create_network_zones: [user, group#member] or operator or operator from server
+    define can_create_network_forwards: [user, group#member] or operator or operator from server
+    define can_create_network_load_balancers: [user, group#member] or operator or operator from server
+    define can_create_network_peers: [user, group#member] or operator or operator from server
+    define can_create_profiles: [user, group#member] or operator or operator from server
+    define can_create_storage_pool_volumes: [user, group#member] or operator or operator from server
+    define can_create_storage_buckets: [user, group#member] or operator or operator from server
+type image
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type instance
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define operator: [user, group#member] or manager
+    define user: [user, group#member] or operator
+    define viewer: [user, group#member] or operator
+    define can_edit: manager or operator from project
+    define can_view: user or viewer or viewer from project
+    define can_update_state: [user, group#member] or operator or operator from project
+    define can_manage_snapshots: [user, group#member] or operator or operator from project
+    define can_manage_backups: [user, group#member] or operator or operator from project
+    define can_connect_sftp: [user, group#member] or user or operator from project
+    define can_access_files: [user, group#member] or user or operator from project
+    define can_access_console: [user, group#member] or user or operator from project
+    define can_exec: [user, group#member] or user or operator from project
+type network
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type network_acl
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type network_zone
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type network_forward
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type network_load_balancer
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type network_peer
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type profile
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type storage_pool_volume
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
+type storage_bucket
+  relations
+    define project: [project]
+    define manager: [user, group#member]
+    define viewer: [user, group#member] or manager
+    define can_edit: manager or operator from project
+    define can_view: viewer or viewer from project
