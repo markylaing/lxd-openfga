@@ -101,56 +101,40 @@ type network
 type network_acl
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type network_zone
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type network_forward
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type network_load_balancer
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type network_peer
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type profile
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type storage_pool_volume
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project
 type storage_bucket
   relations
     define project: [project]
-    define manager: [user, group#member]
-    define viewer: [user, group#member] or manager
-    define can_edit: manager or operator from project
-    define can_view: viewer or viewer from project
+    define can_edit: [user, group#member] or operator from project
+    define can_view: [user, group#member] or can_edit or viewer from project

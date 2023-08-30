@@ -3,6 +3,7 @@ package openfga
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"testing"
 
 	"github.com/openfga/go-sdk/client"
@@ -136,7 +137,7 @@ func (s *openFGASuite) SetupTest() {
 	}
 }
 
-func (s *openFGASuite) TearDownTest() {
+func (s *openFGASuite) TearDownSuite() {
 	_, err := s.fga.DeleteStore(context.Background()).Execute()
 	s.Require().NoError(err)
 }
@@ -154,7 +155,7 @@ func (s *openFGASuite) TestPublic() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:anyone",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -163,7 +164,7 @@ func (s *openFGASuite) TestPublic() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:anyone",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -721,7 +722,7 @@ func (s *openFGASuite) TestServerAdmin() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:server_admin",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -730,7 +731,7 @@ func (s *openFGASuite) TestServerAdmin() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:server_admin",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -1289,7 +1290,7 @@ func (s *openFGASuite) TestServerOperator() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:server_operator",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -1298,7 +1299,7 @@ func (s *openFGASuite) TestServerOperator() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:server_operator",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -1858,7 +1859,7 @@ func (s *openFGASuite) TestServerViewer() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:server_viewer",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -1867,7 +1868,7 @@ func (s *openFGASuite) TestServerViewer() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:server_viewer",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -2434,7 +2435,7 @@ func (s *openFGASuite) TestProjectManager() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_manager",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -2443,7 +2444,7 @@ func (s *openFGASuite) TestProjectManager() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_manager",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -3010,7 +3011,7 @@ func (s *openFGASuite) TestProjectOperator() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_operator",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -3019,7 +3020,7 @@ func (s *openFGASuite) TestProjectOperator() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_operator",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -3579,7 +3580,7 @@ func (s *openFGASuite) TestProjectViewer() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_viewer",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -3588,7 +3589,7 @@ func (s *openFGASuite) TestProjectViewer() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:project01_viewer",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -4154,7 +4155,7 @@ func (s *openFGASuite) TestInstanceManager() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_manager",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -4163,7 +4164,7 @@ func (s *openFGASuite) TestInstanceManager() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_manager",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -4723,7 +4724,7 @@ func (s *openFGASuite) TestInstanceOperator() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_operator",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -4732,7 +4733,7 @@ func (s *openFGASuite) TestInstanceOperator() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_operator",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -5292,7 +5293,7 @@ func (s *openFGASuite) TestInstanceUser() {
 			allowed:     false,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_user",
-				Relation: "can_edit_server",
+				Relation: "can_edit",
 				Object:   "server:lxd",
 			},
 		},
@@ -5301,7 +5302,7 @@ func (s *openFGASuite) TestInstanceUser() {
 			allowed:     true,
 			request: client.ClientCheckRequest{
 				User:     "user:instance01_user",
-				Relation: "can_view_server",
+				Relation: "can_view",
 				Object:   "server:lxd",
 			},
 		},
@@ -5827,4 +5828,13 @@ func (s *openFGASuite) TestInstanceUser() {
 		s.Require().NoError(err)
 		s.Equal(test.allowed, checkResponse.GetAllowed())
 	}
+}
+
+func (s *openFGASuite) Test_messing_about() {
+	readAuthorizationModelResponse, err := s.fga.ReadAuthorizationModel(context.Background()).Options(client.ClientReadAuthorizationModelOptions{AuthorizationModelId: s.authModelID}).Body(client.ClientReadAuthorizationModelRequest{}).Execute()
+	s.Require().NoError(err)
+	s.Require().True(readAuthorizationModelResponse.HasAuthorizationModel())
+
+	authorizationModel := readAuthorizationModelResponse.GetAuthorizationModel()
+	fmt.Println(authorizationModel)
 }
